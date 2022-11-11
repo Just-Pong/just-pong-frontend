@@ -3,7 +3,7 @@ import PongGame from "./PongGame";
 function App() {
   return (
     <>
-      <PongGame />;
+      <PongGame />
     </>
   );
 }
