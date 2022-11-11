@@ -1,0 +1,68 @@
+*,
+*::after,
+*::before {
+  box-sizing: border-box;
+}
+
+:root {
+  --hue: 150;
+  --saturation: 80%;
+  --foreground-color: hsl(var(--hue), var(--saturation), 75%);
+  --background-color: hsl(var(--hue), var(--saturation), 20%);
+}
+
+body {
+  margin: 0;
+  background-color: var(--background-color);
+}
+
+.paddle {
+  --position: 50;
+  position: absolute;
+  background-color: var(--foreground-color);
+  width: 2vh;
+  height: 15vh;
+  top: calc(var(--position) * 1vh);
+  transform: translateY(-50%);
+}
+
+.paddle.left {
+  left: 1vw;
+}
+
+.paddle.right {
+  right: 1vw;
+}
+
+.ball {
+  --x: 50;
+  --y: 50;
+
+  position: absolute;
+  background-color: var(--foreground-color);
+  width: 2.5vh;
+  height: 2.5vh;
+  left: calc(var(--x) * 1vw);
+  top: calc(var(--y) * 1vh);
+  transform: translate(-50%, -50%);
+}
+
+.score {
+  display: flex;
+  justify-content: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 7vh;
+  color: var(--foreground-color);
+}
+
+.score > * {
+  flex-grow: 1;
+  flex-basis: 0;
+  padding: 0 30vh;
+  margin: 1vh 0;
+  opacity: 9;
+}
+
+.score > :first-child {
+  text-align: right;
+}
