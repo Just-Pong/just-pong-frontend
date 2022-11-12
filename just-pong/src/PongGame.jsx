@@ -4,50 +4,77 @@ import "./style/PongGame.css";
 import Ball from "./models/Ball";
 import Paddle from "./models/Paddle";
 
+const UP = -1;
+const DOWN = 1;
+const KEY_UP_P1 = "w";
+const KEY_DOWN_P1 = "s";
+const KEY_UP_P2 = "ArrowUp";
+const KEY_DOWN_P2 = "ArrowDown";
+
 function PongGame() {
   useEffect(() => {
+    let lastTime;
     const ball = new Ball(document.getElementById("ball"));
     const player1Paddle = new Paddle(document.getElementById("player1-paddle"));
     const player2Paddle = new Paddle(document.getElementById("player2-paddle"));
 
-    const UP = -1;
-    const DOWN = 1;
-
-    let lastTime;
+    const player1ScoreElement = document.getElementById("player1-score");
+    const player2ScoreElement = document.getElementById("player2-score");
 
     function update(time) {
       if (lastTime != null) {
         const delta = time - lastTime;
-        ball.update(delta);
+        ball.update(delta, [player1Paddle.rect(), player2Paddle.rect()]);
+
+        if (hasWinner()) handleWin();
       }
 
       lastTime = time;
       window.requestAnimationFrame(update);
     }
 
+    function hasWinner() {
+      const rect = ball.rect();
+      return rect.right >= window.innerWidth || rect.left <= 0;
+    }
+
+    function handleWin() {
+      const rect = ball.rect();
+      if (rect.right >= window.innerWidth) {
+        player1ScoreElement.textContent =
+          parseInt(player1ScoreElement.textContent) + 1;
+      } else {
+        player2ScoreElement.textContent =
+          parseInt(player2ScoreElement.textContent) + 1;
+      }
+      console.log(ball.velocity);
+      ball.reset();
+      console.log(ball.velocity);
+      console.log(ball.direction);
+    }
     // controls for  the players
 
     // @TODO make this two event work at the same time
     // right now cannot listen to both of the events from the two players
     document.addEventListener("keydown", (event) => {
-      var code = event.code;
+      var key = event.key;
       // player two
-      if (code === "ArrowUp") {
+      if (key === KEY_UP_P2) {
         player2Paddle.update(UP);
       }
-      if (code === "ArrowDown") {
+      if (key === KEY_DOWN_P2) {
         player2Paddle.update(DOWN);
       }
     });
 
     document.addEventListener("keydown", (event) => {
-      var code = event.code;
+      var key = event.key;
 
       // player one
-      if (code === "KeyW") {
+      if (key === KEY_UP_P1) {
         player1Paddle.update(UP);
       }
-      if (code === "KeyS") {
+      if (key === KEY_DOWN_P1) {
         player1Paddle.update(DOWN);
       }
     });

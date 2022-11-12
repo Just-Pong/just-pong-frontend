@@ -34,14 +34,14 @@ export default class Ball {
   reset() {
     this.x = 50; // middle of the screen
     this.y = 50;
-    this.direction = { x: 0 };
+    this.direction = { x: 0, y: 0 };
 
     // x = 0 means it's moving only UP and DOWN
     // x = 1 means it's moving only RIGHT and LEFT
     // so this while makes the ball movements more tricky
     while (
-      Math.abs(this.direction.x <= 0.3) ||
-      Math.abs(this.direction.x >= 0.8)
+      Math.abs(this.direction.x <= 0.2) ||
+      Math.abs(this.direction.x >= 0.9)
     ) {
       const heading = randomNumberBetween(0, 2 * Math.PI);
       this.direction = { x: Math.cos(heading), y: Math.sin(heading) };
@@ -50,7 +50,7 @@ export default class Ball {
     this.velocity = BASE_VELOCITY;
   }
 
-  update(delta) {
+  update(delta, paddles) {
     this.x += this.direction.x * this.velocity * delta;
     this.y += this.direction.y * this.velocity * delta;
 
@@ -58,16 +58,32 @@ export default class Ball {
 
     const rect = this.rect();
 
+    // bounce on the top and on the bottom of the screen
     if (rect.bottom >= window.innerHeight || rect.top <= 0) {
+      const heading = randomNumberBetween(0, 2 * Math.PI);
       this.direction.y *= -1;
+
+      return;
     }
 
-    if (rect.right >= window.innerWidth || rect.left <= 0) {
+    // collision with the paddles
+    if (paddles.some((r) => hasCollided(r, rect))) {
       this.direction.x *= -1;
+
+      return;
     }
   }
 }
 
 function randomNumberBetween(min, max) {
   return Math.random() * (max - min) + min;
+}
+
+function hasCollided(ball, paddle) {
+  return (
+    ball.left <= paddle.right &&
+    ball.right >= paddle.left &&
+    ball.top <= paddle.bottom &&
+    ball.bottom >= paddle.top
+  );
 }

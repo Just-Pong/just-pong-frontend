@@ -1,6 +1,7 @@
 export default class Paddle {
   constructor(paddleElement) {
     this.paddleElement = paddleElement;
+    this.reset();
   }
 
   get position() {
@@ -21,9 +22,19 @@ export default class Paddle {
     this.position = 50;
   }
 
-  // @TODO
-  // do not let the paddle to leave the game area
+  rect() {
+    return this.paddleElement.getBoundingClientRect();
+  }
+
   update(value) {
+    const rect = this.rect();
+
+    if (
+      (rect.top < 0 && value < 0) ||
+      (rect.bottom >= window.innerHeight && value > 0)
+    )
+      return;
+
     this.position += value;
   }
 }
