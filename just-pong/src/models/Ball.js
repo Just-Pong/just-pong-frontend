@@ -1,5 +1,5 @@
 const BASE_VELOCITY = 0.025;
-const INCREASE_VELOCITY_BY = 0.00001;
+const INCREASE_VELOCITY_BY = 0.0025;
 
 export default class Ball {
   constructor(ballElement) {
@@ -32,9 +32,10 @@ export default class Ball {
   }
 
   reset() {
+    this.velocity = BASE_VELOCITY;
     this.x = 50; // middle of the screen
     this.y = 50;
-    this.direction = { x: 0, y: 0 };
+    this.direction = { x: 0 };
 
     // x = 0 means it's moving only UP and DOWN
     // x = 1 means it's moving only RIGHT and LEFT
@@ -46,30 +47,26 @@ export default class Ball {
       const heading = randomNumberBetween(0, 2 * Math.PI);
       this.direction = { x: Math.cos(heading), y: Math.sin(heading) };
     }
-
-    this.velocity = BASE_VELOCITY;
   }
 
   update(delta, paddles) {
     this.x += this.direction.x * this.velocity * delta;
     this.y += this.direction.y * this.velocity * delta;
 
-    if (this.velocity < 0.05) this.velocity += INCREASE_VELOCITY_BY * delta;
+    if (this.velocity < 0.05) this.velocity += INCREASE_VELOCITY_BY;
 
-    const rect = this.rect();
+    const ballRect = this.rect();
 
     // bounce on the top and on the bottom of the screen
-    if (rect.bottom >= window.innerHeight || rect.top <= 0) {
-      const heading = randomNumberBetween(0, 2 * Math.PI);
+    if (ballRect.bottom >= window.innerHeight || ballRect.top <= 0) {
       this.direction.y *= -1;
-
       return;
     }
 
     // collision with the paddles
-    if (paddles.some((r) => hasCollided(r, rect))) {
+    if (paddles.some((r) => hasCollided(r, ballRect))) {
       this.direction.x *= -1;
-
+      this.direction.y = Math.sin(randomNumberBetween(0, 2 * Math.PI));
       return;
     }
   }
@@ -79,11 +76,11 @@ function randomNumberBetween(min, max) {
   return Math.random() * (max - min) + min;
 }
 
-function hasCollided(ball, paddle) {
+function hasCollided(paddle, ball) {
   return (
-    ball.left <= paddle.right &&
-    ball.right >= paddle.left &&
-    ball.top <= paddle.bottom &&
-    ball.bottom >= paddle.top
+    paddle.left < ball.right &&
+    paddle.right > ball.left &&
+    paddle.top < ball.bottom &&
+    paddle.bottom > ball.top
   );
 }

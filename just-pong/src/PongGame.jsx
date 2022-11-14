@@ -40,6 +40,7 @@ function PongGame() {
 
     function handleWin() {
       const rect = ball.rect();
+      ball.reset();
       if (rect.right >= window.innerWidth) {
         player1ScoreElement.textContent =
           parseInt(player1ScoreElement.textContent) + 1;
@@ -47,10 +48,7 @@ function PongGame() {
         player2ScoreElement.textContent =
           parseInt(player2ScoreElement.textContent) + 1;
       }
-      console.log(ball.velocity);
-      ball.reset();
-      console.log(ball.velocity);
-      console.log(ball.direction);
+      lastTime = null;
     }
     // controls for  the players
 
