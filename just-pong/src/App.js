@@ -1,4 +1,4 @@
-import PongGame from "./PongGame.jsx";
+import PongGame from "./PongGame";
 
 function App() {
   return (
