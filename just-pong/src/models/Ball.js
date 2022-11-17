@@ -1,4 +1,4 @@
-const BASE_VELOCITY = 0.025;
+const BASE_VELOCITY = 0.0025;
 const INCREASE_VELOCITY_BY = 0.0025;
 
 export default class Ball {
@@ -53,7 +53,7 @@ export default class Ball {
     this.x += this.direction.x * this.velocity * delta;
     this.y += this.direction.y * this.velocity * delta;
 
-    if (this.velocity < 0.05) this.velocity += INCREASE_VELOCITY_BY;
+    if (this.velocity < 0.03) this.velocity += INCREASE_VELOCITY_BY;
 
     const ballRect = this.rect();
 

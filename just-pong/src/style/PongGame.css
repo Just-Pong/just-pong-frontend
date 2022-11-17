@@ -21,7 +21,7 @@ body {
   --position: 50;
   position: absolute;
   background-color: var(--foreground-color);
-  width: 2vh;
+  width: 1vh;
   height: 15vh;
   top: calc(var(--position) * 1vh);
   transform: translateY(-50%);
