@@ -1,5 +1,5 @@
-const BASE_VELOCITY = 0.0025;
-const INCREASE_VELOCITY_BY = 0.0025;
+const BASE_VELOCITY = 0.025;
+const INCREASE_VELOCITY_BY = 0.0001;
 
 export default class Ball {
   constructor(ballElement) {
@@ -41,8 +41,8 @@ export default class Ball {
     // x = 1 means it's moving only RIGHT and LEFT
     // so this while makes the ball movements more tricky
     while (
-      Math.abs(this.direction.x <= 0.2) ||
-      Math.abs(this.direction.x >= 0.9)
+      Math.abs(this.direction.x) <= 0.2 ||
+      Math.abs(this.direction.x) >= 0.9
     ) {
       const heading = randomNumberBetween(0, 2 * Math.PI);
       this.direction = { x: Math.cos(heading), y: Math.sin(heading) };
