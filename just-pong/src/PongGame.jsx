@@ -11,6 +11,7 @@ const KEY_UP_P1 = "w";
 const KEY_DOWN_P1 = "s";
 const KEY_UP_P2 = "ArrowUp";
 const KEY_DOWN_P2 = "ArrowDown";
+const PAUSE = "p";
 
 export default function PongGame(props) {
   const [score1, setScore1] = useState(0);
@@ -110,6 +111,6 @@ export default function PongGame(props) {
       <PaddleComponent side="right" position={paddle2Y}/>
     </>
   );
-}
+};
 
 
