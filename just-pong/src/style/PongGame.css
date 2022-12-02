@@ -24,7 +24,7 @@ body {
   width: 1vh;
   height: 15vh;
   top: calc(var(--position) * 1vh);
-  transform: translateY(-50%);
+  /* transform: translateY(-50%); */
 }
 
 .paddle.left {
@@ -45,7 +45,7 @@ body {
   height: 2.5vh;
   left: calc(var(--x) * 1vw);
   top: calc(var(--y) * 1vh);
-  transform: translate(-50%, -50%);
+  /* transform: translate(-50%, -50%); */
 }
 
 .score {

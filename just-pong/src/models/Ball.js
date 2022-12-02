@@ -2,33 +2,21 @@ const BASE_VELOCITY = 0.0025;
 const INCREASE_VELOCITY_BY = 0.0025;
 
 export default class Ball {
-  constructor(ballElement) {
-    this.ballElement = ballElement;
+  // TODO remove hardcode (same as Paddle)
+  height = 2.5
+  width = 2.5
+
+  constructor() {
     this.reset();
   }
 
-  get x() {
-    return parseFloat(
-      getComputedStyle(this.ballElement).getPropertyValue("--x")
-    );
-  }
-
-  set x(value) {
-    this.ballElement.style.setProperty("--x", value);
-  }
-
-  get y() {
-    return parseFloat(
-      getComputedStyle(this.ballElement).getPropertyValue("--y")
-    );
-  }
-
-  set y(value) {
-    this.ballElement.style.setProperty("--y", value);
-  }
-
   rect() {
-    return this.ballElement.getBoundingClientRect();
+    return {
+      top: this.y + this.height,
+      bottom: this.y,
+      left: this.x,
+      right: this.x + this.width,
+    }
   }
 
   reset() {
@@ -58,7 +46,7 @@ export default class Ball {
     const ballRect = this.rect();
 
     // bounce on the top and on the bottom of the screen
-    if (ballRect.bottom >= window.innerHeight || ballRect.top <= 0) {
+    if (ballRect.bottom >= 100 || ballRect.top <= 0) {
       this.direction.y *= -1;
       return;
     }

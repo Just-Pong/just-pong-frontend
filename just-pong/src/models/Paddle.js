@@ -1,40 +1,46 @@
 export default class Paddle {
-  constructor(paddleElement) {
-    this.paddleElement = paddleElement;
+  // TODO change hardcoding while keeping separate from ui
+  static LEFT = 0
+  static RIGHT = 1
+
+  height = 15
+  width = 1
+
+  constructor(side) {
+    if(side === Paddle.LEFT){
+      this.x = 0;
+    } else if(side === Paddle.RIGHT){
+      this.x = 99;
+    } else{
+      throw new Error("Not a valid side");
+    }
     this.reset();
   }
 
-  get position() {
-    return parseFloat(
-      getComputedStyle(this.paddleElement).getPropertyValue("--position")
-    );
-  }
-
-  set position(value) {
-    this.paddleElement.style.setProperty("--position", value);
-  }
-
-  get height() {
-    return parseFloat(this.paddleElement.getPropertyValue("--height"));
-  }
-
   reset() {
-    this.position = 50;
+    this.y = 50;
   }
 
   rect() {
-    return this.paddleElement.getBoundingClientRect();
+    return {
+      top: this.y,
+      bottom: this.y + this.height,
+      left: this.x,
+      right: this.x + this.width,
+    }
   }
 
   update(value) {
     const rect = this.rect();
 
+    console.log(rect);
+
     if (
       (rect.top < 0 && value < 0) ||
-      (rect.bottom >= window.innerHeight && value > 0)
+      (rect.bottom >= 100 && value > 0)
     )
       return;
 
-    this.position += value;
+    this.y += value;
   }
 }
