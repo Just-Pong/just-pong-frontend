@@ -7,5 +7,12 @@ import "../style/PongGame.css";
  * @param {number} positon
  */
 export default function PaddleComponent(props) {
+  if(props.position === -1){
+    return <>
+      <h1 className={`status ${props.side}`}>Connecting</h1>
+      <div className={`paddle ${props.side}`} style={{ '--position': 50 }}></div>
+    </>
+  }
+
   return <div className={`paddle ${props.side}`} style={{ '--position': `${props.position}` }}></div>
 }

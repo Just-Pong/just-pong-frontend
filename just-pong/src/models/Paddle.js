@@ -41,6 +41,6 @@ export default class Paddle {
     )
       return;
 
-    this.y += value;
+    this.y = value;
   }
 }

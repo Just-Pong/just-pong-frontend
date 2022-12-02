@@ -35,6 +35,20 @@ body {
   right: 1vw;
 }
 
+.status {
+  position: absolute;
+  color: coral;
+  bottom: 1vw;
+}
+
+.status.left {
+  left: 1vw;
+}
+
+.status.right {
+  right: 1vw;
+}
+
 .ball {
   --x: 50;
   --y: 50;

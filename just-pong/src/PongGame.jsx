@@ -14,6 +14,8 @@ const KEY_DOWN_P2 = "ArrowDown";
 const PAUSE = "p";
 
 export default function PongGame(props) {
+  const [gameId, setGameId] = useState();
+
   const [score1, setScore1] = useState(0);
   const [score2, setScore2] = useState(0);
 
@@ -67,35 +69,23 @@ export default function PongGame(props) {
   }, []);
 
   useEffect(() => {
-    // controls for  the players
+    let ws = new WebSocket("ws://127.0.0.1:8000/game/host/ws");
+    
+    ws.onmessage = (event) => {
+      const data = JSON.parse(event.data);
+      console.log(data);
+      setGameId(data.game_id);
 
-    // @TODO make this two event work at the same time
-    // right now cannot listen to both of the events from the two players
-    document.addEventListener("keydown", (event) => {
-      let key = event.key;
-      // player two
-      if (key === KEY_UP_P2) {
-        paddle2.update(UP);
-        setPaddle2Y(paddle2.y);
-      }
-      if (key === KEY_DOWN_P2) {
-        paddle2.update(DOWN);
-        setPaddle2Y(paddle2.y);
-      }
-    });
+      paddle1.update(data.player_1);
+      setPaddle1Y(data.player_1);
+      paddle2.update(data.player_2);
+      setPaddle2Y(data.player_2);
+    }
 
-    document.addEventListener("keydown", (event) => {
-      let key = event.key;
-      // player one
-      if (key === KEY_UP_P1) {
-        paddle1.update(UP);
-        setPaddle1Y(paddle1.y);
-      }
-      if (key === KEY_DOWN_P1) {
-        paddle1.update(DOWN);
-        setPaddle1Y(paddle1.y);
-      }
-    });
+    ws.onclose = (event) => {
+      console.log(event);
+    }
+
   }, []);
   
 
@@ -105,6 +95,7 @@ export default function PongGame(props) {
         <div id="player1-score">{ score1 }</div>
         <div id="player2-score">{ score2 }</div>
       </div>
+      <h2 className="score">{gameId}</h2>
 
       <BallComponent x={ballX} y={ballY}/>
       <PaddleComponent side="left" position={paddle1Y}/>
